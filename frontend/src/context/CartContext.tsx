@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import type { ProductResponse } from "../types/product";
 
 export interface CartItem extends ProductResponse {
@@ -9,6 +9,7 @@ interface CartContextType {
   items: CartItem[];
   addToCart: (product: ProductResponse) => void;
   removeFromCart: (id: string) => void;
+  cleanCart: () => void;
   updateQuantity: (id: string, quantity: number) => void;
   totalPrice: number;
 }
@@ -16,7 +17,14 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | null>(null);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [items, setItems] = useState<CartItem[]>(() => {
+    const storedItems = localStorage.getItem("cartItems");
+    return storedItems ? JSON.parse(storedItems) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(items));
+  }, [items]);
 
   const addToCart = (product: ProductResponse) => {
     setItems((prev) => {
@@ -38,6 +46,10 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     setItems((prev) => prev.filter((item) => item.id !== id));
   };
 
+  const cleanCart = () => {
+    setItems([]);
+  };
+
   const updateQuantity = (id: string, quantity: number) => {
     if (quantity <= 0) {
       removeFromCart(id);
@@ -57,6 +69,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     <CartContext.Provider
       value={{
         items,
+        cleanCart,
         addToCart,
         removeFromCart,
         updateQuantity,

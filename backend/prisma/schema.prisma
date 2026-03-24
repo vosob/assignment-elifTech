@@ -38,3 +38,18 @@ model Product {
 
   @@map("product")
 }
+
+model Order {
+  id         String   @id @default(uuid())
+
+  name       String
+  email      String
+  phone      String
+  address    String
+  totalPrice Float
+  items      Json
+
+  createdAt  DateTime @default(now())
+
+  @@map("order")
+}

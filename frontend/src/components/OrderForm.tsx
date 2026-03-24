@@ -1,6 +1,9 @@
 import { useForm } from "react-hook-form";
 import { orderSchema, type OrderSchema } from "../utils/orderSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useCart } from "../context/CartContext";
+import toast from "react-hot-toast";
+import { postOrder } from "../api/orders";
 
 export const OrderForm = () => {
   const {
@@ -12,9 +15,26 @@ export const OrderForm = () => {
     resolver: zodResolver(orderSchema),
   });
 
+  const { items, totalPrice, cleanCart } = useCart();
+
   const onSubmit = (data: OrderSchema) => {
-    console.log(data);
-    reset();
+    try {
+      const formattedItems = items.map(({ id, name, price, quantity }) => ({
+        id,
+        name,
+        price,
+        quantity,
+      }));
+
+      const order = { ...data, items: formattedItems, totalPrice };
+      postOrder(order);
+      toast.success("Order placed successfully");
+      cleanCart();
+      reset();
+    } catch (error) {
+      toast.error("Something went wrong");
+      console.error(error);
+    }
   };
 
   return (
