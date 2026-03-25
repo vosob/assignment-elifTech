@@ -4,9 +4,9 @@ A web application where users can browse shops, add items to cart, and place foo
 
 ## Links
 
-- Live Demo:
+- Live Demo: https://assignment-elif-tech.vercel.app/
 - Backend: https://assignment-eliftech.onrender.com/
-- Repository:
+- Repository: https://github.com/vosob/assignment-elifTech
 
 ## Accomplished Level
 
