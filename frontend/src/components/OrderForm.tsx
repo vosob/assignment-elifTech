@@ -25,7 +25,6 @@ export const OrderForm = () => {
         price,
         quantity,
       }));
-
       const order = { ...data, items: formattedItems, totalPrice };
       postOrder(order);
       toast.success("Order placed successfully");
@@ -38,14 +37,14 @@ export const OrderForm = () => {
   };
 
   return (
-    <form className="w-md mx-auto" onSubmit={handleSubmit(onSubmit)}>
+    <form className="w-full max-w-md mx-auto" onSubmit={handleSubmit(onSubmit)}>
       {/* Name */}
       <div className="flex flex-col w-full">
         <label htmlFor="name" className="text-lg px-1 mb-1">
           Name
         </label>
         <input
-          className="text-xl  border border-gray-400 px-2 py-1 "
+          className="text-xl border border-gray-400 px-2 py-1"
           type="text"
           id="name"
           {...register("name")}
@@ -59,13 +58,12 @@ export const OrderForm = () => {
           Email
         </label>
         <input
-          className="text-xl  border border-gray-400 px-2 py-1 "
+          className="text-xl border border-gray-400 px-2 py-1"
           type="email"
           id="email"
           {...register("email")}
         />
       </div>
-
       {errors.email && <p className="text-red-500">{errors.email.message}</p>}
 
       {/* Phone */}
@@ -74,13 +72,12 @@ export const OrderForm = () => {
           Phone
         </label>
         <input
-          className="text-xl  border border-gray-400 px-2 py-1 "
+          className="text-xl border border-gray-400 px-2 py-1"
           type="tel"
           id="phone"
           {...register("phone")}
         />
       </div>
-
       {errors.phone && <p className="text-red-500">{errors.phone.message}</p>}
 
       {/* Address */}
@@ -89,13 +86,12 @@ export const OrderForm = () => {
           Address
         </label>
         <input
-          className="text-xl border border-gray-400 px-2 py-1 "
+          className="text-xl border border-gray-400 px-2 py-1"
           type="text"
           id="address"
           {...register("address")}
         />
       </div>
-
       {errors.address && (
         <p className="text-red-500">{errors.address.message}</p>
       )}

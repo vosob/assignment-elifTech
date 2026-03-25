@@ -10,6 +10,7 @@ export class ShopsService {
       select: {
         id: true,
         name: true,
+        shopRate: true,
       },
     });
   }
